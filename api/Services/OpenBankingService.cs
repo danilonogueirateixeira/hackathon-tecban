@@ -5,6 +5,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -28,7 +29,59 @@ namespace tecban_api.Services
             configuration = _configuration;
         }
 
-        public AuthenticationDataResult GetUrl(string bank)
+        public Accounts SetConsent(AuthenticationData consent, string bank)
+        {
+            basicAuthentication = GetBasicAuthentication(bank);
+            certificate = GetCertificate(bank);
+
+            var content = new Dictionary<string, string>()
+            {
+                { "grant_type", "authorization_code" },
+                { "scope", "accounts" },
+                { "code", consent.ConsentId },
+                { "redirect_uri", "http://www.google.co.uk" }
+            };
+
+            var url = bank.Equals("bank1")
+                ? configuration["tecban-bank1:token-endpoint"]
+                : configuration["tecban-bank2:token-endpoint"];
+
+            var token = PostCast<Token>(url, "token", string.Empty, content);
+
+            var accountData = GetAllAccountsData(bank, token.access_token);
+
+            return accountData;
+        }
+
+        public Accounts GetAllAccountsData(string bank, string access_token)
+        {
+            certificate = GetCertificate(bank);
+
+            var bearer = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var accountData = GetCast<Accounts>(bearer, $"open-banking/v3.1/aisp/accounts", access_token);
+
+            return accountData;
+        }
+
+        public Account GetAccountData(string bank, string accountId, string access_token)
+        {
+            certificate = GetCertificate(bank);
+
+            var bearer = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var accountData = GetCast<Accounts>(bearer, $"open-banking/v3.1/aisp/accounts/{accountId}", access_token);
+
+            return accountData.Data.Account
+                .FirstOrDefault().Account
+                .FirstOrDefault();
+        }
+
+        public AuthenticationData GetUrl(string bank)
         {
             basicAuthentication = GetBasicAuthentication(bank);
 
@@ -52,7 +105,7 @@ namespace tecban_api.Services
 
             var resultUrl = GetCodeUrl(bank, consents.Data.ConsentId, token.access_token);
 
-            return new AuthenticationDataResult
+            return new AuthenticationData
             {
                 UrlAuthentication = resultUrl,
                 AccessToken = token.access_token,
@@ -118,7 +171,6 @@ namespace tecban_api.Services
 
             return consents;
         }
-
 
         public string GetCodeUrl(string bank, string consentId, string access_token)
         {

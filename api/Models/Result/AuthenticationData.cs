@@ -2,7 +2,7 @@
 
 namespace tecban_api.Models.Result
 {
-    public class AuthenticationDataResult
+    public class AuthenticationData
     {
         public string AccessToken { get; set; }
         public string ConsentId { get; set; }

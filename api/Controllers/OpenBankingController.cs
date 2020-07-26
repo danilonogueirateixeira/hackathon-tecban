@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using tecban_api.Models.Result;
 using tecban_api.Services.Interfaces;
 
 namespace tecban_api.Controllers
@@ -34,6 +31,81 @@ namespace tecban_api.Controllers
                 if (result == null)
                 {
                     throw new Exception("Ocorreu um erro ao gerar a url");
+                }
+
+                return Ok(new { success = true, result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("[controller]/set-consent/{bank}")]
+        [Produces("application/json")]
+        public IActionResult SetConsent([FromBody] AuthenticationData consent, string bank)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(bank))
+                    bank = "bank1";
+
+                var result = service.SetConsent(consent, bank.ToLower());
+
+                if (result == null)
+                {
+                    throw new Exception("Ocorreu um erro ao gravar o consentimento");
+                }
+
+                return Ok(new { success = true, result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-accounts/{bank}/{token}")]
+        [Produces("application/json")]
+        public IActionResult GetAccounts(string bank, string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(bank))
+                    bank = "bank1";
+
+                var result = service.GetAllAccountsData(bank.ToLower(), token);
+
+                if (result == null)
+                {
+                    throw new Exception("Ocorreu um erro ao consultar as contas");
+                }
+
+                return Ok(new { success = true, result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-account/{bank}/{token}/{accountId}")]
+        [Produces("application/json")]
+        public IActionResult GetAccounts(string bank, string token, string accountId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(bank))
+                    bank = "bank1";
+
+                var result = service.GetAccountData(bank.ToLower(), accountId, token);
+
+                if (result == null)
+                {
+                    throw new Exception("Ocorreu um erro ao consultar a conta");
                 }
 
                 return Ok(new { success = true, result });

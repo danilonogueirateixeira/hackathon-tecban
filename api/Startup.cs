@@ -59,14 +59,6 @@ namespace tecban_api
             {
                 endpoints.MapControllers();
             });
-
-            //app.UseDefaultFiles();
-            //app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "certs"))
-            //});
         }
     }
 }

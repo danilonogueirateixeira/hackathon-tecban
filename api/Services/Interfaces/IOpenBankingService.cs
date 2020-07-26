@@ -1,9 +1,13 @@
 ﻿using tecban_api.Models.Result;
+using tecban_api.Models.Tecban;
 
 namespace tecban_api.Services.Interfaces
 {
     public interface IOpenBankingService
     {
-        AuthenticationDataResult GetUrl(string bank);
+        AuthenticationData GetUrl(string bank);
+        Accounts SetConsent(AuthenticationData consent, string bank);
+        Accounts GetAllAccountsData(string bank, string access_token);
+        Account GetAccountData(string v, string accountId, string token);
     }
 }
