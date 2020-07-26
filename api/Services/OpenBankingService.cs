@@ -29,7 +29,7 @@ namespace tecban_api.Services
             configuration = _configuration;
         }
 
-        public Accounts SetConsent(AuthenticationData consent, string bank)
+        public AuthenticationData SetConsent(AuthenticationData consent, string bank)
         {
             basicAuthentication = GetBasicAuthentication(bank);
             certificate = GetCertificate(bank);
@@ -48,9 +48,12 @@ namespace tecban_api.Services
 
             var token = PostCast<Token>(url, "token", string.Empty, content);
 
-            var accountData = GetAllAccountsData(bank, token.access_token);
-
-            return accountData;
+            return new AuthenticationData
+            {
+                AccessToken = token.access_token,
+                ExpiresIn = token.expires_in,
+                TransactionDate = DateTime.Now
+            };
         }
 
         public Accounts GetAllAccountsData(string bank, string access_token)

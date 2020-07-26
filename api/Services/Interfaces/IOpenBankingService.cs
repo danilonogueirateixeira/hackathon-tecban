@@ -6,7 +6,7 @@ namespace tecban_api.Services.Interfaces
     public interface IOpenBankingService
     {
         AuthenticationData GetUrl(string bank);
-        Accounts SetConsent(AuthenticationData consent, string bank);
+        AuthenticationData SetConsent(AuthenticationData consent, string bank);
         Accounts GetAllAccountsData(string bank, string access_token);
         Account GetAccountData(string v, string accountId, string token);
     }
