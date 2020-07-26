@@ -42,12 +42,16 @@ namespace tecban_api.Services
 
             var token = PostCast<Token>(url, "token", string.Empty, content);
 
-            var consents = GetConsents(bank, token.access_token);
+            var consents = SetConsents(bank, token.access_token);
 
-            return string.Empty;
+            consents = GetConsentById(bank, consents.Data.ConsentId, token.access_token);
+
+            var resultUrl = GetCodeUrl(bank, consents.Data.ConsentId, token.access_token);
+
+            return resultUrl;
         }
 
-        public AccountAccessConsents GetConsents(string bank, string access_token)
+        public AccountAccessConsents SetConsents(string bank, string access_token)
         {
             var permission = new AccountAccessConsents
             {
@@ -93,6 +97,29 @@ namespace tecban_api.Services
             return consents;
         }
 
+        public AccountAccessConsents GetConsentById(string bank, string consentId, string access_token)
+        {
+            var bearer = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var consents = GetCast<AccountAccessConsents>(bearer, $"open-banking/v3.1/aisp/account-access-consents/{consentId}", access_token);
+
+            return consents;
+        }
+
+
+        public string GetCodeUrl(string bank, string consentId, string access_token)
+        {
+            var urlBase = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var urlResult = GetCast<String>(urlBase, $"ozone/v1.0/auth-code-url/{consentId}?scope=accounts&alg=none", null);
+
+            return urlResult.ToString();
+        }
+
         private T PostCast<T>(string url, string path, string json, Dictionary<string, string> data, string token = null)
         {
             var handler = new HttpClientHandler
@@ -135,7 +162,7 @@ namespace tecban_api.Services
             }
         }
 
-        private T GetCast<T>(string url, string path, string param, string token)
+        private T GetCast<T>(string url, string path, string token = null)
         {
             var handler = new HttpClientHandler
             {
@@ -149,15 +176,22 @@ namespace tecban_api.Services
             using (HttpClient httpClient = new HttpClient(handler))
             {
                 httpClient.BaseAddress = new Uri(url);
+                if (string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization
+                        = new AuthenticationHeaderValue("Basic", configuration["token-tecban"]);
+                }
+                else
+                {
+                    httpClient.DefaultRequestHeaders.Authorization
+                            = new AuthenticationHeaderValue("Bearer", token);
+                        httpClient.DefaultRequestHeaders.Add("x-fapi-financial-id", configuration["x-fapi-financial-id"]);
+                        httpClient.DefaultRequestHeaders.Add("x-fapi-interaction-id", configuration["x-fapi-interaction-id"]);
+                        httpClient.DefaultRequestHeaders.Accept.Add(
+                            new MediaTypeWithQualityHeaderValue("application/json"));
+                }
 
-                httpClient.DefaultRequestHeaders.Authorization
-                        = new AuthenticationHeaderValue("Bearer", token);
-                    httpClient.DefaultRequestHeaders.Add("x-fapi-financial-id", configuration["x-fapi-financial-id"]);
-                    httpClient.DefaultRequestHeaders.Add("x-fapi-interaction-id", configuration["x-fapi-interaction-id"]);
-                    httpClient.DefaultRequestHeaders.Accept.Add(
-                        new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var response = httpClient.GetAsync($"{url}/{path}/{param}").Result;
+                var response = httpClient.GetAsync($"{url}/{path}").Result;
                 return JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
             }
         }
