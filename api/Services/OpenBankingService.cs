@@ -115,7 +115,7 @@ namespace tecban_api.Services
                 ? configuration["tecban-bank1:bearer-endpoint"]
                 : configuration["tecban-bank2:bearer-endpoint"];
 
-            var urlResult = GetCast<String>(urlBase, $"ozone/v1.0/auth-code-url/{consentId}?scope=accounts&alg=none", null);
+            var urlResult = GetCast<string>(urlBase, $"ozone/v1.0/auth-code-url/{consentId}?scope=accounts&alg=none", null);
 
             return urlResult.ToString();
         }
@@ -192,6 +192,10 @@ namespace tecban_api.Services
                 }
 
                 var response = httpClient.GetAsync($"{url}/{path}").Result;
+
+                if (path.Contains(@"ozone/v1.0/auth-code-url"))
+                    return (T)Convert.ChangeType(response.Content.ReadAsStringAsync().Result, typeof(T));
+
                 return JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
             }
         }
