@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,61 +27,9 @@ namespace tecban_api.Services
             configuration = _configuration;
         }
 
-        public AuthenticationData SetConsent(AuthenticationData consent, string bank)
-        {
-            basicAuthentication = GetBasicAuthentication(bank);
-            certificate = GetCertificate(bank);
+        #region Authentication
 
-            var content = new Dictionary<string, string>()
-            {
-                { "grant_type", "authorization_code" },
-                { "scope", "accounts" },
-                { "code", consent.ConsentId },
-                { "redirect_uri", "http://www.google.co.uk" }
-            };
-
-            var url = bank.Equals("bank1")
-                ? configuration["tecban-bank1:token-endpoint"]
-                : configuration["tecban-bank2:token-endpoint"];
-
-            var token = PostCast<Token>(url, "token", string.Empty, content);
-
-            return new AuthenticationData
-            {
-                AccessToken = token.access_token,
-                ExpiresIn = token.expires_in,
-                TransactionDate = DateTime.Now
-            };
-        }
-
-        public Accounts GetAllAccountsData(string bank, string access_token)
-        {
-            certificate = GetCertificate(bank);
-
-            var bearer = bank.Equals("bank1")
-                ? configuration["tecban-bank1:bearer-endpoint"]
-                : configuration["tecban-bank2:bearer-endpoint"];
-
-            var accountData = GetCast<Accounts>(bearer, $"open-banking/v3.1/aisp/accounts", access_token);
-
-            return accountData;
-        }
-
-        public Account GetAccountData(string bank, string accountId, string access_token)
-        {
-            certificate = GetCertificate(bank);
-
-            var bearer = bank.Equals("bank1")
-                ? configuration["tecban-bank1:bearer-endpoint"]
-                : configuration["tecban-bank2:bearer-endpoint"];
-
-            var accountData = GetCast<Accounts>(bearer, $"open-banking/v3.1/aisp/accounts/{accountId}", access_token);
-
-            return accountData.Data.Account
-                .FirstOrDefault().Account
-                .FirstOrDefault();
-        }
-
+        #region methods composite url authentication
         public AuthenticationData GetUrl(string bank)
         {
             basicAuthentication = GetBasicAuthentication(bank);
@@ -97,7 +43,7 @@ namespace tecban_api.Services
             var url = bank.Equals("bank1")
                 ? configuration["tecban-bank1:token-endpoint"]
                 : configuration["tecban-bank2:token-endpoint"];
-            
+
             certificate = GetCertificate(bank);
 
             var token = PostCast<Token>(url, "token", string.Empty, content);
@@ -174,7 +120,104 @@ namespace tecban_api.Services
 
             return consents;
         }
+        #endregion
 
+        public AuthenticationData SetConsent(AuthenticationData consent, string bank)
+        {
+            basicAuthentication = GetBasicAuthentication(bank);
+            certificate = GetCertificate(bank);
+
+            var content = new Dictionary<string, string>()
+            {
+                { "grant_type", "authorization_code" },
+                { "scope", "accounts" },
+                { "code", consent.ConsentId },
+                { "redirect_uri", "http://www.google.co.uk" }
+            };
+
+            var url = bank.Equals("bank1")
+                ? configuration["tecban-bank1:token-endpoint"]
+                : configuration["tecban-bank2:token-endpoint"];
+
+            var token = PostCast<Token>(url, "token", string.Empty, content);
+
+            return new AuthenticationData
+            {
+                AccessToken = token.access_token,
+                ExpiresIn = token.expires_in,
+                TransactionDate = DateTime.Now
+            };
+        }
+        #endregion
+
+        #region Accounts
+        public Accounts GetAllAccountsData(string bank, string access_token)
+        {
+            certificate = GetCertificate(bank);
+
+            var bearer = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var accountData = GetCast<Accounts>(bearer, $"open-banking/v3.1/aisp/accounts", access_token);
+
+            return accountData;
+        }
+
+        public Account GetAccountData(string bank, string accountId, string access_token)
+        {
+            certificate = GetCertificate(bank);
+
+            var bearer = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var accountData = GetCast<Accounts>(bearer, $"open-banking/v3.1/aisp/accounts/{accountId}", access_token);
+
+            return accountData.Data.Account
+                .FirstOrDefault().Account
+                .FirstOrDefault();
+        }
+        #endregion
+
+        #region Transactions
+        public Transactions GetAllTransactionsData(string bank, string access_token)
+        {
+            certificate = GetCertificate(bank);
+
+            var bearer = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var transactionData = GetCast<Transactions>(bearer, $"open-banking/v3.1/aisp/transactions", access_token);
+
+            return transactionData;
+        }
+
+        public Transactions GetAllTransactionsAccountData(string bank, string access_token, string accountId)
+        {
+            certificate = GetCertificate(bank);
+
+            var bearer = bank.Equals("bank1")
+                ? configuration["tecban-bank1:bearer-endpoint"]
+                : configuration["tecban-bank2:bearer-endpoint"];
+
+            var transactionData = GetCast<Transactions>(bearer, $"open-banking/v3.1/aisp/accounts/{accountId}/transactions", access_token);
+
+            return transactionData;
+        }
+
+        public ItemTransactionData GetLastTransaction(string bank, string access_token)
+        {
+            var data = GetAllTransactionsData(bank, access_token);
+
+            return data.Data.Transaction
+                .OrderByDescending(x => x.ValueDateTime)
+                .FirstOrDefault();
+        }
+        #endregion
+
+        #region utils
         public string GetCodeUrl(string bank, string consentId, string access_token)
         {
             basicAuthentication = GetBasicAuthentication(bank);
@@ -281,5 +324,6 @@ namespace tecban_api.Services
                     ? configuration["token-tecban-bank1"]
                     : configuration["token-tecban-bank2"]);
         }
+        #endregion
     }
 }

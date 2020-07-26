@@ -94,7 +94,7 @@ namespace tecban_api.Controllers
         [HttpGet]
         [Route("[controller]/get-account/{bank}/{token}/{accountId}")]
         [Produces("application/json")]
-        public IActionResult GetAccounts(string bank, string token, string accountId)
+        public IActionResult GetAccouns(string bank, string token, string accountId)
         {
             try
             {
@@ -106,6 +106,81 @@ namespace tecban_api.Controllers
                 if (result == null)
                 {
                     throw new Exception("Ocorreu um erro ao consultar a conta");
+                }
+
+                return Ok(new { success = true, result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-transactions/{bank}/{token}")]
+        [Produces("application/json")]
+        public IActionResult GetTransactions(string bank, string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(bank))
+                    bank = "bank1";
+
+                var result = service.GetAllTransactionsData(bank.ToLower(), token);
+
+                if (result == null)
+                {
+                    throw new Exception("Ocorreu um erro ao consultar as transações");
+                }
+
+                return Ok(new { success = true, result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-transactions-account/{bank}/{token}/{accountId}")]
+        [Produces("application/json")]
+        public IActionResult GetTransactionsAccount(string bank, string token, string accountId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(bank))
+                    bank = "bank1";
+
+                var result = service.GetAllTransactionsAccountData(bank.ToLower(), accountId, token);
+
+                if (result == null)
+                {
+                    throw new Exception("Ocorreu um erro ao consultar a transação");
+                }
+
+                return Ok(new { success = true, result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("[controller]/get-last-transaction/{bank}/{token}")]
+        [Produces("application/json")]
+        public IActionResult GetLastTransaction(string bank, string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(bank))
+                    bank = "bank1";
+
+                var result = service.GetLastTransaction(bank.ToLower(), token);
+
+                if (result == null)
+                {
+                    throw new Exception("Ocorreu um erro ao consultar a transação");
                 }
 
                 return Ok(new { success = true, result });
