@@ -39,6 +39,21 @@ mixin _$Controller on ControllerBase, Store {
     });
   }
 
+  final _$urlAtom = Atom(name: 'ControllerBase.url');
+
+  @override
+  String get url {
+    _$urlAtom.reportRead();
+    return super.url;
+  }
+
+  @override
+  set url(String value) {
+    _$urlAtom.reportWrite(value, super.url, () {
+      super.url = value;
+    });
+  }
+
   final _$saveUserAsyncAction = AsyncAction('ControllerBase.saveUser');
 
   @override
@@ -84,11 +99,19 @@ mixin _$Controller on ControllerBase, Store {
         .run(() => super.handleGoogleSignIn());
   }
 
+  final _$getUrlAsyncAction = AsyncAction('ControllerBase.getUrl');
+
+  @override
+  Future getUrl() {
+    return _$getUrlAsyncAction.run(() => super.getUrl());
+  }
+
   @override
   String toString() {
     return '''
 user: ${user},
-isLogging: ${isLogging}
+isLogging: ${isLogging},
+url: ${url}
     ''';
   }
 }

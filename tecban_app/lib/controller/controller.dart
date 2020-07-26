@@ -1,9 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tecban_app/model/user.dart';
 import 'package:tecban_app/utils/util.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 part 'controller.g.dart';
 
@@ -20,6 +24,9 @@ abstract class ControllerBase with Store {
 
   @observable
   bool isLogging = false;
+
+  @observable
+  String url;
 
   @action
   saveUser(User user) async {
@@ -59,9 +66,9 @@ abstract class ControllerBase with Store {
 
   Dio dio;
 
-  initLogin() {
+  init() {
     BaseOptions options = new BaseOptions(
-      baseUrl: "https://coronahelp-api.herokuapp.com",
+      baseUrl: "http://192.168.0.109:3001",
       connectTimeout: 5000,
     );
     dio = new Dio(options);
@@ -114,6 +121,39 @@ abstract class ControllerBase with Store {
       isLogging = false;
       print(error);
       print("Não foi possível realizar o Login, tente novamente!");
+    }
+  }
+
+  @action
+  getUrl() async {
+    init();
+    try {
+      Response response = await dio.get("/get-url");
+      print("LOG - AUTH - DATA -> ${response.data['url-access']}");
+      print("LOG - AUTH - CODE -> ${response.statusCode}");
+      url = response.data['url-access'];
+      //url = 'https://www.google.com.br/';
+    } on DioError catch (e) {
+      print("LOG - AUTH- ERROR CODE -> ${e.response.statusCode}");
+      print("LOG - AUTH - ERROR MESSAGE -> ${e.message}");
+      if (e.response.statusCode == 404) {
+        print("LOG - AUTH - ERROR RESPONSE -> ${e.response.data}");
+      } else {
+        print("LOG - AUTH - ERROR REQUEST -> ${e.request.data}");
+      }
+    }
+  }
+
+  openBrowserTab(url) async {
+    await FlutterWebBrowser.openWebPage(
+        url: url, androidToolbarColor: Colors.deepPurple);
+  }
+
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
     }
   }
 }
