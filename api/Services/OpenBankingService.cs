@@ -19,6 +19,7 @@ namespace tecban_api.Services
     public class OpenBankingService : IOpenBankingService
     {
         private readonly IConfiguration configuration;
+        private X509Certificate2 certificate;
 
         public OpenBankingService(IConfiguration _configuration)
         {
@@ -36,6 +37,8 @@ namespace tecban_api.Services
             var url = bank.Equals("bank1")
                 ? configuration["tecban-bank1:token-endpoint"]
                 : configuration["tecban-bank2:token-endpoint"];
+            
+            certificate = GetCertificate(bank);
 
             var token = PostCast<Token>(url, "token", string.Empty, content);
 
@@ -98,12 +101,7 @@ namespace tecban_api.Services
                 SslProtocols = SslProtocols.Tls12
             };
 
-            var pathCertificate = new X509Certificate2(
-                Path.Combine(Environment.CurrentDirectory, "certs", "client_certificate_s1.pfx"),
-                configuration["self-certificate-password"]);
-
-            handler.ClientCertificates.Add(pathCertificate);
-
+            handler.ClientCertificates.Add(certificate);
             handler.ServerCertificateCustomValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
             using (HttpClient httpClient = new HttpClient(handler))
@@ -137,32 +135,40 @@ namespace tecban_api.Services
             }
         }
 
-        private T GetCast<T>(string url, string path, string json, Dictionary<string, string> data)
+        private T GetCast<T>(string url, string path, string param, string token)
         {
-
-            //const string tokenPath = "NjRkYzE2ZGYtM2NjMy00NGU1LWIwNWUtNzU5MzEwODAzOGJhOjA0OWFhMzU3LTRiMTctNGFmMi05NTg5LTkyNjdmY2JkNjM0Yg==";
-
             var handler = new HttpClientHandler
             {
                 ClientCertificateOptions = ClientCertificateOption.Manual,
                 SslProtocols = SslProtocols.Tls12
             };
 
-            var pathCertificate = new X509Certificate2(
-                Path.Combine(Environment.CurrentDirectory, "certs", "client_certificate_s1.pfx"),
-                "tecban2020");
-
-            handler.ClientCertificates.Add(pathCertificate);
-
+            handler.ClientCertificates.Add(certificate);
             handler.ServerCertificateCustomValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
             using (HttpClient httpClient = new HttpClient(handler))
             {
                 httpClient.BaseAddress = new Uri(url);
 
-                var response = httpClient.GetAsync($"{url}/{path}").Result;
+                httpClient.DefaultRequestHeaders.Authorization
+                        = new AuthenticationHeaderValue("Bearer", token);
+                    httpClient.DefaultRequestHeaders.Add("x-fapi-financial-id", configuration["x-fapi-financial-id"]);
+                    httpClient.DefaultRequestHeaders.Add("x-fapi-interaction-id", configuration["x-fapi-interaction-id"]);
+                    httpClient.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = httpClient.GetAsync($"{url}/{path}/{param}").Result;
                 return JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
             }
+        }
+
+        private X509Certificate2 GetCertificate(string bank)
+        {
+            return new X509Certificate2(
+                Path.Combine(Environment.CurrentDirectory, "certs", bank.Equals("bank1")
+                    ? "client_certificate_s1.pfx"
+                    : "client_certificate_s2.pfx"),
+                configuration["self-certificate-password"]);
         }
     }
 }
