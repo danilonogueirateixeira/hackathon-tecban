@@ -1,7 +1,9 @@
-﻿namespace tecban_api.Services.Interfaces
+﻿using tecban_api.Models.Result;
+
+namespace tecban_api.Services.Interfaces
 {
     public interface IOpenBankingService
     {
-        string GetUrl(string bank);
+        AuthenticationDataResult GetUrl(string bank);
     }
 }

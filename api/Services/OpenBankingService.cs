@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using tecban_api.Models.Result;
 using tecban_api.Models.Tecban;
 using tecban_api.Services.Interfaces;
 
@@ -20,14 +21,17 @@ namespace tecban_api.Services
     {
         private readonly IConfiguration configuration;
         private X509Certificate2 certificate;
+        private AuthenticationHeaderValue basicAuthentication;
 
         public OpenBankingService(IConfiguration _configuration)
         {
             configuration = _configuration;
         }
 
-        public string GetUrl(string bank)
+        public AuthenticationDataResult GetUrl(string bank)
         {
+            basicAuthentication = GetBasicAuthentication(bank);
+
             var content = new Dictionary<string, string>()
             {
                 { "grant_type", "client_credentials" },
@@ -48,7 +52,14 @@ namespace tecban_api.Services
 
             var resultUrl = GetCodeUrl(bank, consents.Data.ConsentId, token.access_token);
 
-            return resultUrl;
+            return new AuthenticationDataResult
+            {
+                UrlAuthentication = resultUrl,
+                AccessToken = token.access_token,
+                ConsentId = consents.Data.ConsentId,
+                TransactionDate = DateTime.Now,
+                ExpiresIn = token.expires_in
+            };
         }
 
         public AccountAccessConsents SetConsents(string bank, string access_token)
@@ -84,11 +95,11 @@ namespace tecban_api.Services
                 Risk = new Risk { }
             };
 
-            var bearer = bank.Equals("bank1")
+            var url = bank.Equals("bank1")
                 ? configuration["tecban-bank1:bearer-endpoint"]
                 : configuration["tecban-bank2:bearer-endpoint"];
 
-            var consents = PostCast<AccountAccessConsents>(bearer, "open-banking/v3.1/aisp/account-access-consents",
+            var consents = PostCast<AccountAccessConsents>(url, "open-banking/v3.1/aisp/account-access-consents",
                 JsonConvert.SerializeObject(permission, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore
@@ -111,6 +122,8 @@ namespace tecban_api.Services
 
         public string GetCodeUrl(string bank, string consentId, string access_token)
         {
+            basicAuthentication = GetBasicAuthentication(bank);
+
             var urlBase = bank.Equals("bank1")
                 ? configuration["tecban-bank1:bearer-endpoint"]
                 : configuration["tecban-bank2:bearer-endpoint"];
@@ -137,8 +150,7 @@ namespace tecban_api.Services
 
                 if (string.IsNullOrEmpty(token))
                 {
-                    httpClient.DefaultRequestHeaders.Authorization
-                        = new AuthenticationHeaderValue("Basic", configuration["token-tecban"]);
+                    httpClient.DefaultRequestHeaders.Authorization = basicAuthentication;
                 }
                 else
                 {
@@ -178,8 +190,7 @@ namespace tecban_api.Services
                 httpClient.BaseAddress = new Uri(url);
                 if (string.IsNullOrEmpty(token))
                 {
-                    httpClient.DefaultRequestHeaders.Authorization
-                        = new AuthenticationHeaderValue("Basic", configuration["token-tecban"]);
+                    httpClient.DefaultRequestHeaders.Authorization = basicAuthentication;
                 }
                 else
                 {
@@ -207,6 +218,13 @@ namespace tecban_api.Services
                     ? "client_certificate_s1.pfx"
                     : "client_certificate_s2.pfx"),
                 configuration["self-certificate-password"]);
+        }
+
+        private AuthenticationHeaderValue GetBasicAuthentication(string bank)
+        {
+            return new AuthenticationHeaderValue("Basic", bank.Equals("bank1")
+                    ? configuration["token-tecban-bank1"]
+                    : configuration["token-tecban-bank2"]);
         }
     }
 }
