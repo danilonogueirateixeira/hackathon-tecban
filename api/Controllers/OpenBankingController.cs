@@ -20,7 +20,7 @@ namespace tecban_api.Controllers
         }
 
         [HttpGet]
-        [Route("v1/[controller]/get-url/{bank}")]
+        [Route("[controller]/get-url/{bank}")]
         [Produces("application/json")]
         public IActionResult GetUrl(string bank)
         {
@@ -36,7 +36,7 @@ namespace tecban_api.Controllers
                     throw new Exception("Ocorreu um erro ao gerar a url");
                 }
 
-                return Ok(new { success = true, data = result });
+                return Ok(new { success = true, result });
             }
             catch (Exception ex)
             {
