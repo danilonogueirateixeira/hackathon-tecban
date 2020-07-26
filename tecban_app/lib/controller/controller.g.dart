@@ -39,18 +39,33 @@ mixin _$Controller on ControllerBase, Store {
     });
   }
 
-  final _$urlAtom = Atom(name: 'ControllerBase.url');
+  final _$initialUrlAtom = Atom(name: 'ControllerBase.initialUrl');
 
   @override
-  String get url {
-    _$urlAtom.reportRead();
-    return super.url;
+  String get initialUrl {
+    _$initialUrlAtom.reportRead();
+    return super.initialUrl;
   }
 
   @override
-  set url(String value) {
-    _$urlAtom.reportWrite(value, super.url, () {
-      super.url = value;
+  set initialUrl(String value) {
+    _$initialUrlAtom.reportWrite(value, super.initialUrl, () {
+      super.initialUrl = value;
+    });
+  }
+
+  final _$codeUrlAtom = Atom(name: 'ControllerBase.codeUrl');
+
+  @override
+  String get codeUrl {
+    _$codeUrlAtom.reportRead();
+    return super.codeUrl;
+  }
+
+  @override
+  set codeUrl(String value) {
+    _$codeUrlAtom.reportWrite(value, super.codeUrl, () {
+      super.codeUrl = value;
     });
   }
 
@@ -111,7 +126,8 @@ mixin _$Controller on ControllerBase, Store {
     return '''
 user: ${user},
 isLogging: ${isLogging},
-url: ${url}
+initialUrl: ${initialUrl},
+codeUrl: ${codeUrl}
     ''';
   }
 }

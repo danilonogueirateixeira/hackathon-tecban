@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_web_browser/flutter_web_browser.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tecban_app/model/account_data.dart';
+import 'package:tecban_app/model/account_owner.dart';
 import 'package:tecban_app/model/user.dart';
 import 'package:tecban_app/utils/util.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 part 'controller.g.dart';
 
@@ -26,7 +25,13 @@ abstract class ControllerBase with Store {
   bool isLogging = false;
 
   @observable
-  String url;
+  String initialUrl;
+
+  @observable
+  String codeUrl;
+
+  @observable
+  List<AccountData> accounts = [];
 
   @action
   saveUser(User user) async {
@@ -131,7 +136,7 @@ abstract class ControllerBase with Store {
       Response response = await dio.get("/get-url");
       print("LOG - AUTH - DATA -> ${response.data['url-access']}");
       print("LOG - AUTH - CODE -> ${response.statusCode}");
-      url = response.data['url-access'];
+      initialUrl = response.data['url-access'];
       //url = 'https://www.google.com.br/';
     } on DioError catch (e) {
       print("LOG - AUTH- ERROR CODE -> ${e.response.statusCode}");
@@ -144,16 +149,40 @@ abstract class ControllerBase with Store {
     }
   }
 
-  openBrowserTab(url) async {
-    await FlutterWebBrowser.openWebPage(
-        url: url, androidToolbarColor: Colors.deepPurple);
-  }
+  @action
+  sendCode() async {
+    init();
+    try {
+      Response response = await dio.post(
+        "/send-code",
+        data: {"code": "$codeUrl"},
+      );
+      print("CODE-> ${response.data['Data']['Account'][0]['AccountId']}");
+      print("CODE-> ${response.data['Data']['Account'][0]['Nickname']}");
+      print(
+          "CODE-> ${response.data['Data']['Account'][0]['Account'][0]['Name']}");
+      print(
+          "CODE-> ${response.data['Data']['Account'][0]['Account'][0]['Identification']}");
 
-  launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+      for (int i = 0; i < 3; i++) {
+        accounts.add(AccountData(
+            response.data['Data']['Account'][i]['AccountId'],
+            response.data['Data']['Account'][i]['Nickname'],
+            AccountOwner(
+                response.data['Data']['Account'][i]['Account'][0]['Name'],
+                response.data['Data']['Account'][i]['Account'][0]
+                    ['Identification'])));
+      }
+      print("LOG - CODE - CODE -> ${response.statusCode}");
+      print("LOG - CODE - QTD CONTAS -> ${accounts.length}");
+    } on DioError catch (e) {
+      print("LOG - CODE- ERROR CODE -> ${e.response.statusCode}");
+      print("LOG - CODE - ERROR MESSAGE -> ${e.message}");
+      if (e.response.statusCode == 404) {
+        print("LOG - CODE - ERROR RESPONSE -> ${e.response.data}");
+      } else {
+        print("LOG - CODE - ERROR REQUEST -> ${e.request.data}");
+      }
     }
   }
 }
