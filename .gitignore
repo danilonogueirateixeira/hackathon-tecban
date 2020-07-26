@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/api/obj
+*.p12
+/api/certs/client_certificate.pfx
+/api/.vs/tecban-api
+/api/bin/Debug/netcoreapp3.1
