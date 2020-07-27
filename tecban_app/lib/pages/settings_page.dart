@@ -68,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           'Notificar todas as\ntransferências',
                           style: TextStyle(
                             color: Color.fromRGBO(0, 74, 173, 1),
-                            fontSize: 32,
+                            fontSize: 24,
                           ),
                         ),
                         GestureDetector(
@@ -118,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               'Notificar transferências\nacima de:',
                               style: TextStyle(
                                 color: Color.fromRGBO(0, 74, 173, 1),
-                                fontSize: 32,
+                                fontSize: 24,
                               ),
                             ),
                             GestureDetector(
@@ -172,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           'Notificar transferências\npara CPF',
                           style: TextStyle(
                             color: Color.fromRGBO(0, 74, 173, 1),
-                            fontSize: 32,
+                            fontSize: 24,
                           ),
                         ),
                         GestureDetector(
