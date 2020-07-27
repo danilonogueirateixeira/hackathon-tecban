@@ -28,5 +28,5 @@ senha: tecban200200
 No prompt de comando digite:
 
 ```
-dotnet what run
+dotnet watch run
 ```
