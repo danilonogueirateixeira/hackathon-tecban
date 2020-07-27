@@ -1,15 +1,18 @@
-# Api Hackathon Tecban OpenBanking
+ï»¿# Api Hackathon Tecban OpenBanking
 
-Api proxy para utilização dos serviços Sandbox Open Banking da tecban
+Api proxy para utilizaÃ§Ã£o dos serviÃ§os Sandbox Open Banking da tecban
 
-https://hackathon-tecban.azurewebsites.net/index.html
+[link do swagger](httpshttps://hackathon-tecban.azurewebsites.net/index.html)
+
 
 ## Tecnologia
-Netcore 3.1
+ - Netcore 3.1
 
-Dependências
- - Dependência Newtonsoft.Json - 12.0.3
- - Dependência Swashbuckle.AspNetCore - 5.5.1
+
+## DependÃªncias
+ - DependÃªncia Newtonsoft.Json - 12.0.3
+ - DependÃªncia Swashbuckle.AspNetCore - 5.5.1
+
 
 ## Certificados tecban
 
@@ -21,5 +24,9 @@ senha: tecban200200
 
 
 ## Executar o projeto
-no prompt de comando digite:
- dotnet what run
+
+No prompt de comando digite:
+
+```sh
+dotnet what run
+Ë‹Ë‹Ë‹
