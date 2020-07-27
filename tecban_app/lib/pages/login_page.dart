@@ -23,12 +23,18 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Center(
-            child: Container(
-              height: 300,
-              child: Image.network(
-                  "https://i0.wp.com/selfdiscoverymedia.com/wp-content/uploads/2014/07/safe_money_conept_icon.png"),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 32, right: 32),
+            child: Image.asset("assets/logo_text.png"),
+          ),
+          Text(
+            'Proteja quem você ama!',
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(color: Color.fromRGBO(156, 15, 196, 1), fontSize: 24),
+          ),
+          SizedBox(
+            height: 30,
           ),
           Observer(
             builder: (_) {
