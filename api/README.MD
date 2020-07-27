@@ -2,7 +2,7 @@
 
 Api proxy para utilização dos serviços Sandbox Open Banking da tecban
 
-[link do swagger](httpshttps://hackathon-tecban.azurewebsites.net)
+[link do swagger](https://hackathon-tecban.azurewebsites.net)
 
 
 ## Tecnologia
@@ -27,6 +27,6 @@ senha: tecban200200
 
 No prompt de comando digite:
 
-```sh
+```
 dotnet what run
-ˋˋˋ
+```
