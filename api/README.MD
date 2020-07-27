@@ -2,6 +2,8 @@
 
 Api proxy para utilização dos serviços Sandbox Open Banking da tecban
 
+https://hackathon-tecban.azurewebsites.net/index.html
+
 ## Tecnologia
 Netcore 3.1
 
