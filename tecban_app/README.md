@@ -1,4 +1,4 @@
-﻿# App Hackathon Tecban OpenBanking
+# App Hackathon Tecban OpenBanking
 
 Projeto mobile CO.Bank em flutter.
 
@@ -19,6 +19,6 @@ Projeto mobile CO.Bank em flutter.
 
 No prompt de comando digite:
 
-```sh
+```
 flutter run
 ˋˋˋ
