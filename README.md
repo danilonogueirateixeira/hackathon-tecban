@@ -6,19 +6,19 @@ O sistema bancário sofre atualmente com o crescimento do número de fraudes, be
 
 ## Pitch
 
-[Pitch PDF](https://storage.googleapis.com/shawee-production.appspot.com/shawee/projectfiles/1942e0dc-c68e-4225-97a1-6f0ca29ee4f5.pdf){:target="_blank"}
+[Pitch PDF](https://storage.googleapis.com/shawee-production.appspot.com/shawee/projectfiles/1942e0dc-c68e-4225-97a1-6f0ca29ee4f5.pdf)
 
 ## Video pitch
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=8TPNWEZmg5Q
 " target="_blank"><img src="http://img.youtube.com/vi/8TPNWEZmg5Q/0.jpg" 
-alt="CO.BANK" width="240" height="180" border="10" /></a>{:target="_blank"}
+alt="CO.BANK" width="240" height="180" border="10" /></a>
 
 ## Video demo
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=Fp9-y3fgoEE
 " target="_blank"><img src="http://img.youtube.com/vi/Fp9-y3fgoEE/0.jpg" 
-alt="CO.BANK Mobile" width="240" height="180" border="10" /></a>{:target="_blank"}
+alt="CO.BANK Mobile" width="240" height="180" border="10" /></a>
 
 ## Equipe Time 37
 
