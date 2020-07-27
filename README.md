@@ -7,7 +7,7 @@ O sistema bancário sofre atualmente com o crescimento do número de fraudes, bem 
 ## Pitch
 
 ## Video pitch
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![Video Pitch CO.BANL](http://img.youtube.com/vi/8TPNWEZmg5Q/0.jpg)](httphttps://youtu.be/8TPNWEZmg5Q)
 
 ## Video demo
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
