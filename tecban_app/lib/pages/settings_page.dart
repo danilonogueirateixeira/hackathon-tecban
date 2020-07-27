@@ -147,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   icon: Icon(
                                     Icons.monetization_on,
                                     color: Color.fromRGBO(156, 15, 196, 1),
-                                    size: 50,
+                                    size: 20,
                                   ),
                                   hintText: 'Qual  o limite?',
                                   labelText: 'Limite',
@@ -210,7 +210,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           'Notificar transferências\npara CNPJ',
                           style: TextStyle(
                             color: Color.fromRGBO(0, 74, 173, 1),
-                            fontSize: 32,
+                            fontSize: 24,
                           ),
                         ),
                         GestureDetector(
