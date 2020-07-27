@@ -5,12 +5,19 @@ O sistema bancário sofre atualmente com o crescimento do número de fraudes, bem 
 
 
 ## Pitch
+Link do PDF
 
 ## Video pitch
-[![Video Pitch CO.BANL](http://img.youtube.com/vi/8TPNWEZmg5Q/0.jpg)](httphttps://youtu.be/8TPNWEZmg5Q)
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=8TPNWEZmg5Q
+" target="_blank"><img src="http://img.youtube.com/vi/8TPNWEZmg5Q/0.jpg" 
+alt="CO.BANK" width="240" height="180" border="10" /></a>
 
 ## Video demo
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=8TPNWEZmg5Q
+" target="_blank"><img src="http://img.youtube.com/vi/8TPNWEZmg5Q/0.jpg" 
+alt="CO.BANK" width="240" height="180" border="10" /></a>
 
 ## Equipe Time 37
 
