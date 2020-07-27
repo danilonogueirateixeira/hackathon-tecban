@@ -1,11 +1,12 @@
 # Hackathon Tecban OpenBanking
 ## CO.BANK - Time 37
 
-O sistema bancário sofre atualmente com o crescimento do número de fraudes, bem como do prejuízo causado por elas, segundo uma pesquisa da KPMG. Diante disso, a progressão do Open Banking aqui no Brasil, país no qual 1 a cada 3 pessoas são desbancarizadas - conforme pesquisa do IBGE - torna-se altamente comprometida, já que os usuários deverão consentir com o compartilhamento de suas informações. Detectamos ainda, que esses crimes são praticados contra grupos mais vulneráveis, como idosos e cegos, que sofrem, dentre outros aspectos, com problemas de acessibilidade que levam à baixa inclusão digital. Dessa maneira, pensamos na `CO.Bank`, uma plataforma na qual pessoas de confiança pudessem salvaguardar seus "protegidos" - essencialmente indivíduos na situação de vulnerabilidade a fraudes -, por meio de notificações em tempo real das transações efetuadas a partir das contas bancárias dos acompanhados. Com isso, esperamos aumentar a confiabilidade do sistema bancário, atraindo mais clientes, incentivando a aderência ao `Open Banking` e reduzindo os prejuízos causados por crimes de fraude.
+O sistema bancï¿½rio sofre atualmente com o crescimento do nï¿½mero de fraudes, bem como do prejuï¿½zo causado por elas, segundo uma pesquisa da KPMG. Diante disso, a progressï¿½o do Open Banking aqui no Brasil, paï¿½s no qual 1 a cada 3 pessoas sï¿½o desbancarizadas - conforme pesquisa do IBGE - torna-se altamente comprometida, jï¿½ que os usuï¿½rios deverï¿½o consentir com o compartilhamento de suas informaï¿½ï¿½es. Detectamos ainda, que esses crimes sï¿½o praticados contra grupos mais vulnerï¿½veis, como idosos e cegos, que sofrem, dentre outros aspectos, com problemas de acessibilidade que levam ï¿½ baixa inclusï¿½o digital. Dessa maneira, pensamos na `CO.Bank`, uma plataforma na qual pessoas de confianï¿½a pudessem salvaguardar seus "protegidos" - essencialmente indivï¿½duos na situaï¿½ï¿½o de vulnerabilidade a fraudes -, por meio de notificaï¿½ï¿½es em tempo real das transaï¿½ï¿½es efetuadas a partir das contas bancï¿½rias dos acompanhados. Com isso, esperamos aumentar a confiabilidade do sistema bancï¿½rio, atraindo mais clientes, incentivando a aderï¿½ncia ao `Open Banking` e reduzindo os prejuï¿½zos causados por crimes de fraude.
 
 
 ## Pitch
-Link do PDF
+
+[Pitch PDF](https://www.canva.com/design/DAEDGKzxahY/rA6bEoDwr-guUx8t0dn_jA/view?utm_content=DAEDGKzxahY&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink#11)
 
 ## Video pitch
 
