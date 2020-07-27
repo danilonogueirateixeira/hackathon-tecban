@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "781727467508",
+    "firebase_url": "https://tecban-app.firebaseio.com",
+    "project_id": "tecban-app",
+    "storage_bucket": "tecban-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781727467508:android:c60d9c91887c56b763dba1",
+        "android_client_info": {
+          "package_name": "com.example.tecban_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "781727467508-1pb1ah9dg8qj05ak1p3r20j4jgd95u8k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tecban_app",
+            "certificate_hash": "220c3f55ad88300e4226c8a780696b8985b0d88a"
+          }
+        },
+        {
+          "client_id": "781727467508-8bkff6ibg87p2rosgr57n4qfca7do5rh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrPQMsedYg9yiebJp4V1LG9w3zRIPetQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "781727467508-8bkff6ibg87p2rosgr57n4qfca7do5rh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
