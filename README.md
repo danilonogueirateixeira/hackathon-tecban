@@ -6,7 +6,7 @@ O sistema banc�rio sofre atualmente com o crescimento do n�mero de fraudes, 
 
 ## Pitch
 
-[Pitch PDF](https://www.canva.com/design/DAEDGKzxahY/rA6bEoDwr-guUx8t0dn_jA/view?utm_content=DAEDGKzxahY&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink#11)
+[Pitch PDF](https://storage.googleapis.com/shawee-production.appspot.com/shawee/projectfiles/1942e0dc-c68e-4225-97a1-6f0ca29ee4f5.pdf)
 
 ## Video pitch
 
@@ -16,9 +16,9 @@ alt="CO.BANK" width="240" height="180" border="10" /></a>
 
 ## Video demo
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=8TPNWEZmg5Q
-" target="_blank"><img src="http://img.youtube.com/vi/8TPNWEZmg5Q/0.jpg" 
-alt="CO.BANK" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Fp9-y3fgoEE
+" target="_blank"><img src="http://img.youtube.com/vi/Fp9-y3fgoEE/0.jpg" 
+alt="CO.BANK Mobile" width="240" height="180" border="10" /></a>
 
 ## Equipe Time 37
 
